@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Kartu Pelanggan</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
+              th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+        <script src="/webjars/jquery/3.2.1/jquery.min.js"
+        th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"
+        th:src="@{/webjars/materializecss/0.100.2/js/materialize.min.js}"></script>
+        <script>
+            $(document).ready(function () {
+                $('select').material_select();
+            });
+        </script>
+    </head>
+    <body class="container">
+        <table class="bordered  highlight responsive-table centered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nama</th>
+                    <th>Saldo</th>
+                    <th>Add Saldo</th>
+                    <th>Add Token</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${listPelanggan}">
+                    <td th:text="${p.id}">001</td>
+                    <td th:text="${p.nama}">Rega Halma Ruzty</td>
+                    <td th:text="${p.saldo}">Rega Halma Ruzty</td>
+                    <td> <a href="/pelanggan/belitoken/1" th:href="@{/pelanggan/add-saldo(id=${p.id})}" class="btn-floating btn-large">
+                            <i class="material-icons left">shopping_basket</i>Tambah Saldo</a></td>
+                            <td><a href="/pelanggan/tambahtoken/1" th:href="@{/pelanggan/add-token(id=${p.id})}" class="btn-floating btn-large">
+                                    <i class="material-icons left">shopping_basket</i>Tambah Token</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
+
