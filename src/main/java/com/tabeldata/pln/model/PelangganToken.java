@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -27,7 +28,16 @@ import lombok.NoArgsConstructor;
 public class PelangganToken {
 
     @Id
-    @GeneratedValue             
+    @GenericGenerator(
+            name = "sequence",
+            strategy = "sequence",
+            parameters = {
+                @org.hibernate.annotations.Parameter(
+                        name = "sequence",
+                        value = "sequence"
+                )
+            })
+    @GeneratedValue(generator = "sequence")
     private Integer id;
 
     @OneToOne
@@ -38,4 +48,3 @@ public class PelangganToken {
     @JoinColumn(name = "id_token", nullable = true)
     private Token token;
 }
-

@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Kartu Pelanggan</title>
+        <title>Home Application</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
               th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
@@ -21,7 +15,7 @@ and open the template in the editor.
         </script>
     </head>
     <body class="container">
-          <nav>
+        <nav>
             <div class="nav-wrapper" sec:authorize="!isAuthenticated()">
                 <a href="/home" class="brand-logo">Aplikasi PLN</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -43,6 +37,7 @@ and open the template in the editor.
                 <a href="/home" class="brand-logo">Aplikasi PLN</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="/user/list">List User</a></li>
+                    <li><a href="/user/role">Assign User</a></li>
                     <li><a href="/pelanggan/list">List Pelanggan</a></li>
                     <li><a href="/login-form">Login</a></li>
                     <li><a href="/logout">Logout</a></li>
@@ -50,7 +45,28 @@ and open the template in the editor.
                 </ul>
             </div>
         </nav>
-        <table class="bordered  highlight responsive-table centered">
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <h1>Welcome Admin!</h1>
+        </div>
+        <div sec:authorize="!isAuthenticated()">
+            <h1>Silahkan Register dan Login</h1>
+            <p>login for ROLE ADMIN</p>
+            <p>username : admin </p>
+            <p>password : admin </p>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <table class="bordered striped highlight responsive-table">
+                <thead>
+                    <tr>
+                        <th> User : <p sec:authentication="name">User</p></th>
+                        <th> Role : <p sec:authentication="authorities">ROLE_USER</p></th>
+                        <th><a href="/pelanggan/report" th:href="@{/pelanggan/report}" class="btn-floating btn-large">Print</a></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+         <table class="bordered  highlight responsive-table centered">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -58,6 +74,7 @@ and open the template in the editor.
                     <th>Saldo</th>
                     <th>Add Saldo</th>
                     <th>Add Token</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -69,14 +86,17 @@ and open the template in the editor.
                             <i class="material-icons left">shopping_basket</i>Tambah Saldo</a></td>
                             <td><a href="/pelanggan/tambahtoken/1" th:href="@{/pelanggan/add-token}" class="btn-floating btn-large">
                                     <i class="material-icons left">shopping_basket</i>Tambah Token</a></td>
+                                    
                 </tr>
             </tbody>
         </table>
+            </div >
         <br/>
         <br/>
         <hr/>
         <br/>
         <br/>
+        <div sec:authorize="isAuthenticated()">
         <table class="bordered striped highlight responsive-table">
             <thead>
                 <tr>
@@ -86,13 +106,13 @@ and open the template in the editor.
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="pln : ${listPelangganToken}">
-                    <td th:text="${pln.id}">001</td>
-                    <td th:text="${pln.pelanggan.nama}">Rega Halma Ruzty</td>
-                    <td th:text="${pln.token.nama_produk}">Rega Halma Ruzty</td>
+                <tr th:each="p : ${listPelangganToken}">
+                    <td th:text="${p.id}">001</td>
+                    <td th:text="${p.pelanggan.nama}">Rega Halma Ruzty</td>
+                    <td th:text="${p.token.nama_produk}">Rega Halma Ruzty</td>
                 </tr>
             </tbody>
         </table>
+    </div>
     </body>
 </html>
-

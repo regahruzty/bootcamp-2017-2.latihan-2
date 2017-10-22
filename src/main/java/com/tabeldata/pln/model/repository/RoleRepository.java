@@ -5,20 +5,17 @@
  */
 package com.tabeldata.pln.model.repository;
 
-import com.tabeldata.pln.model.Pelanggan;
-import com.tabeldata.pln.model.PelangganToken;
+
+import com.tabeldata.pln.model.Role;
 import java.util.List;
-import org.exolab.castor.mapping.xml.Param;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  *
  * @author Diani
  */
-public interface PelangganTokenRepository extends PagingAndSortingRepository<PelangganToken, Integer>{
+public interface RoleRepository extends PagingAndSortingRepository<Role, Integer>{
     
-    List<PelangganToken> findAll();
-    
-    PelangganToken findByPelangganId(String id);
+    List<Role> findAll();
     
 }

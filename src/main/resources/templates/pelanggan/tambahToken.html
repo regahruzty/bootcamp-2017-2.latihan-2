@@ -5,7 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-    <head><title>Buy Again</title>
+    <head><title>Add Token</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
               th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
@@ -20,26 +20,55 @@ and open the template in the editor.
         </script>
     </head>
     <body class="container">
-        <form action="/pelanggan/beli" th:action="@{/pelanggan/beli}" th:object="${pln}" th:method="post" method="post">
+         <nav>
+            <div class="nav-wrapper" sec:authorize="!isAuthenticated()">
+                <a href="/home" class="brand-logo">Aplikasi PLN</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/user/new">Registrasi User</a></li>
+                    <li><a href="/login-form">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+               
+                </ul>
+            </div>
+            <div class="nav-wrapper" sec:authorize="hasRole('ROLE_USER')">
+                <a href="/home" class="brand-logo">Aplikasi PLN</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/pelanggan/new">Pembelian Token</a></li>
+                    <li><a href="/logout">Logout</a></li>
+               
+                </ul>
+            </div>
+            <div class="nav-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/home" class="brand-logo">Aplikasi PLN</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/user/list">List User</a></li>
+                    <li><a href="/pelanggan/list">List Pelanggan</a></li>
+                    <li><a href="/login-form">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+               
+                </ul>
+            </div>
+        </nav>
+        <form action="/pelanggan/beli" th:action="@{/pelanggan/beli}" th:object="${p}" th:method="post" method="post">
             <div class="input-field row">
                 <label for="id"></label> 
-                <input type="hidden" name="id" id="id" th:field="*{id}" value="1" th:value="1"/>
+                <input type="hidden" name="id" id="id" th:field="*{id}" th:value="1"/>
             </div>
-            <div class="input-field row">
-                <label for="nama"></label>
-                <input type="hidden" name="nama" id="nama" th:field="*{pelanggan}" th:value="${p.id}"/>
+            <div class="input-field row">    
+                <select name="pelanggan" id="pelanggan" th:field="*{pelanggan}">
+                    <option th:each="pelanggan : ${listPelanggan}" value="1" th:value="${pelanggan.id}">Pelanggan : <span th:text="${pelanggan.nama}">1</span>
+                    </option>
+                </select>
             </div>
-            <div class="input-field row"> 
-                <label for="token">Token</label>
+            <div class="input-field row">    
                 <select name="token" id="token" th:field="*{token}">
-                    <option th:each="token : ${listToken}" value="1" th:value="${token.id}">
-                        <span th:text="${token.nama_produk}">1</span>
+                    <option th:each="token : ${listToken}" value="1" th:value="${token.id}">Token : <span th:text="${token.nama_produk}">1</span>
                     </option>
                 </select>
             </div>
             <div class="row">
                 <button type="submit" class="btn waves  -effect waves-light">
-                    <i class="material-icons left">hearing</i>Tambah Saldo</button>
+                    <i class="material-icons left">hearing</i>Tambah Token</button>
             </div>
         </form>
     </body>

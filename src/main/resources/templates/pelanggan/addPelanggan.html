@@ -20,27 +20,57 @@ and open the template in the editor.
         </script>
     </head>
     <body class="container">
-        <form action="/pelanggan/new" th:action="@{/pelanggan/new}" th:object="${p}" th:method="post" method="post">
-            <div class="input-field row">
-                <label for="id"></label> 
-                <input type="hidden" name="id" id="id" th:field="*{id}" value="1" th:value="1"/>
+         <nav>
+            <div class="nav-wrapper" sec:authorize="!isAuthenticated()">
+                <a href="/home" class="brand-logo">Aplikasi PLN</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/user/new">Registrasi User</a></li>
+                    <li><a href="/login-form">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+               
+                </ul>
             </div>
-            <div class="input-field row">
-                <label for="nama">Nama</label>
-                <input type="text" name="nama" id="nama" th:field="*{nama}"/>
+            <div class="nav-wrapper" sec:authorize="hasRole('ROLE_USER')">
+                <a href="/home" class="brand-logo">Aplikasi PLN</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/pelanggan/new">Pembelian Token</a></li>
+                    <li><a href="/logout">Logout</a></li>
+               
+                </ul>
             </div>
-            <div class="input-field row">
-                <label for="token">Token</label>
-                <select name="token" id="token" th:field="*{saldo}">
-                    <option th:each="token : ${listToken}" value="1" th:value="${token.nama_produk}">
-                        Token <span th:text="${token.nama_produk}">1</span>
-                    </option>
-                </select>
+            <div class="nav-wrapper" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/home" class="brand-logo">Aplikasi PLN</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/user/list">List User</a></li>
+                    <li><a href="/pelanggan/list">List Pelanggan</a></li>
+                    <li><a href="/login-form">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+               
+                </ul>
             </div>
-            <div class="row">
-                <button type="submit" class="btn waves  -effect waves-light">
-                    <i class="material-icons">hearing</i>Register</button>
-            </div>
-        </form>
-    </body>
+        </nav>
+    <th><p sec:authentication="name">User</p><p sec:authentication="authorities">ROLE_USER</p></th>
+    <form action="/pelanggan/new" th:action="@{/pelanggan/new}" th:object="${p}" th:method="post" method="post">
+        <div class="input-field row">
+            <label for="id"></label>
+            <input type="hidden" name="id" id="id" th:field="*{id}" th:value="1"/>
+        </div>
+        <div class="input-field row" >
+            <label for="nama">Nama</label> 
+            <input type="text" name="nama" id="nama" th:field="*{nama}"/>
+        </div>
+        <div class="input-field row">
+            <label for="token">Token</label>
+            <select name="token" id="token" th:field="*{saldo}">
+                <option th:each="token : ${listToken}" value="1" th:value="${token.nama_produk}">
+                   <span th:text="${token.nama_produk}">1</span>
+                </option>
+            </select>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn waves  -effect waves-light">
+                <i class="material-icons left">hearing</i>Register</button>
+        </div>
+    </form>
+</body>
 </html>

@@ -27,7 +27,6 @@ import lombok.NoArgsConstructor;
 public class Token {
     
     @Id
-    @GeneratedValue
     private Integer id;
     private Integer nama_produk;
     private Integer harga; 

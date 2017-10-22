@@ -20,18 +20,18 @@ and open the template in the editor.
         </script>
     </head>
     <body class="container">
-        <form action="/pelanggan/new" th:action="@{/pelanggan/new}" th:object="${pelanggan}" th:method="post" method="post">
+        <form action="/pelanggan/new" th:action="@{/pelanggan/new}" th:object="${p}" th:method="post" method="post">
             <div class="input-field row">
                 <label for="id"></label> 
                 <input type="hidden" name="id" id="id" th:field="*{id}" value="1" th:value="1"/>
             </div>
             <div class="input-field row">
                 <label for="nama">Nama</label>
-                <input type="text" name="nama" id="nama" th:field="*{nama}" th:value="${nama}">
-                <label for="token">Token</label>
-                <select name="token" id="token" th:field="*{saldo}">
-                    <option th:each="token : ${listToken}" value="1" th:value="${pelanggan.saldo}+${token.nama_produk}">
-                        <span th:text="${token.nama_produk}">1</span>
+                <input type="text" name="nama" id="nama" th:field="*{nama}" th:value="${p.nama}" readonly="readonly"/>
+            </div>
+            <div class="input-field row">    
+                               <select name="token" id="token" th:field="*{saldo}">
+                    <option th:each="token : ${listToken}" value="1" th:value="${p.saldo}+${token.nama_produk}">Token : <span th:text="${token.nama_produk}">1</span>
                     </option>
                 </select>
             </div>

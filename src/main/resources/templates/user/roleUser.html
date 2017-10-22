@@ -4,9 +4,8 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <head>
-        <title>Kartu Pelanggan</title>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head><title>Add Token</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css"
               th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
@@ -16,12 +15,12 @@ and open the template in the editor.
         th:src="@{/webjars/materializecss/0.100.2/js/materialize.min.js}"></script>
         <script>
             $(document).ready(function () {
-                $('select').material_select();
+            $('select').material_select();
             });
         </script>
     </head>
     <body class="container">
-          <nav>
+         <nav>
             <div class="nav-wrapper" sec:authorize="!isAuthenticated()">
                 <a href="/home" class="brand-logo">Aplikasi PLN</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -50,49 +49,27 @@ and open the template in the editor.
                 </ul>
             </div>
         </nav>
-        <table class="bordered  highlight responsive-table centered">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nama</th>
-                    <th>Saldo</th>
-                    <th>Add Saldo</th>
-                    <th>Add Token</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="p : ${listPelanggan}">
-                    <td th:text="${p.id}">001</td>
-                    <td th:text="${p.nama}">Rega Halma Ruzty</td>
-                    <td th:text="${p.saldo}">Rega Halma Ruzty</td>
-                    <td> <a href="/pelanggan/belitoken/1" th:href="@{/pelanggan/add-saldo(id=${p.id})}" class="btn-floating btn-large">
-                            <i class="material-icons left">shopping_basket</i>Tambah Saldo</a></td>
-                            <td><a href="/pelanggan/tambahtoken/1" th:href="@{/pelanggan/add-token}" class="btn-floating btn-large">
-                                    <i class="material-icons left">shopping_basket</i>Tambah Token</a></td>
-                </tr>
-            </tbody>
-        </table>
-        <br/>
-        <br/>
-        <hr/>
-        <br/>
-        <br/>
-        <table class="bordered striped highlight responsive-table">
-            <thead>
-                <tr>
-                    <th class="centered">Id</th>
-                    <th>Nama Pelanggan</th>
-                    <th>Produk Token</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="pln : ${listPelangganToken}">
-                    <td th:text="${pln.id}">001</td>
-                    <td th:text="${pln.pelanggan.nama}">Rega Halma Ruzty</td>
-                    <td th:text="${pln.token.nama_produk}">Rega Halma Ruzty</td>
-                </tr>
-            </tbody>
-        </table>
+        <form action="/user/role" th:action="@{/user/role}" th:object="${ur}" th:method="post" method="post">
+            <div class="input-field row">
+                <label for="id"></label> 
+                <input type="hidden" name="id" id="id" th:field="*{id}" th:value="1"/>
+            </div>
+            <div class="input-field row">    
+                <select name="user" id="user" th:field="*{user}">
+                    <option th:each="user : ${listUser}" value="1" th:value="${user.id}">Pick User : <span th:text="${user.username}">1</span>
+                    </option>
+                </select>
+            </div>
+            <div class="input-field row">    
+                <select name="role" id="role" th:field="*{role}">
+                    <option th:each="role : ${listRole}" value="1" th:value="${role.id}">Pick Role : <span th:text="${role.nama}">1</span>
+                    </option>
+                </select>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn waves  -effect waves-light">
+                    <i class="material-icons left">hearing</i>Tambah Token</button>
+            </div>
+        </form>
     </body>
 </html>
-
